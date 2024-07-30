@@ -34,6 +34,5 @@ sudo -u $USERNAME expect <<EOF
 EOF
 
 # Copy docker-compose.yml
-sudo mv docker-compose.yml /home/$USERNAME/tpotce/docker-compose.yml
 
 echo "T-Pot installation completed."
