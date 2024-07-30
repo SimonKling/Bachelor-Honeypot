@@ -25,9 +25,5 @@ sudo cp galah_tpot /home/$USERNAME/tpotce/docker/
 # Change to the tpotce directory
 cd /home/$USERNAME/tpotce
 
-# Run the install script using expect
-sudo -u $USERNAME expect <<EOF
-  spawn bash install.sh
-
-EOF
+bash ./install.sh
 
