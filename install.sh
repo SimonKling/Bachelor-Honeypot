@@ -1,10 +1,24 @@
-cd tpotce/
-### Run the install script
-  spawn bash install.sh
-  expect "Install? (y/n)" { send "y\r" }
-  expect "Install Type? (h/s/m)" {send "h\r"}
-  expect "Enter your web user name:" {send "honeypot\r"}
-  expect "Is this correct?" {send "y\r"}
-  expect "Enter password for your web user:" {send "$PASSWORD\r"}
-  expect "Repeat password you your web user:" {send "$PASSWORD\r"}
-  expect eof
+#!/bin/bash
+
+# Define username and password
+USERNAME="honeypot"
+PASSWORD="Pueb7oTa8ak876!@"
+
+# Add the user without a password
+sudo adduser --disabled-password --gecos "" $USERNAME
+
+sudo usermod -aG sudo $USERNAME
+# Set the password
+echo "$USERNAME:$PASSWORD" | sudo chpasswd
+
+echo "User $USERNAME created and password set."
+
+# Clone the T-Pot repository as the honeypot user
+sudo -u $USERNAME git clone https://github.com/telekom-security/tpotce.git /home/$USERNAME/tpotce
+
+# Copy custom file (if needed)
+sudo cp galah_tpot /home/$USERNAME/tpotce/docker/
+
+sudo cp docker-compose-custom-bachelor.yml /home/$USERNAME/tpotce/compose
+
+su - $USERNAME -c "cd /home/$USERNAME/
