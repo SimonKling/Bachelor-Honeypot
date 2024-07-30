@@ -30,6 +30,6 @@ sudo -u $USERNAME expect <<EOF
   spawn bash install.sh
   expect "Install? (y/n)" { send "y\r" }
   expect "password for $USERNAME:" {send "$PASSWORD\r"}
-  exit
+  expect "TEST {send eof}
 EOF
 
