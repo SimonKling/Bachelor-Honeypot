@@ -22,8 +22,6 @@ sudo -u $USERNAME git clone https://github.com/telekom-security/tpotce.git /home
 # Copy custom file (if needed)
 sudo cp galah_tpot /home/$USERNAME/tpotce/docker/
 
-# Change to the tpotce directory
-
-copy installTpot.sh /home/$USERNAME/
+sudo cp docker-compose-custom-bachelor.yml /home/$USERNAME/tpotce/compose
 
 su - $USERNAME -c "cd /home/$USERNAME/
