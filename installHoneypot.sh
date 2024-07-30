@@ -30,6 +30,10 @@ sudo -u $USERNAME expect <<EOF
   spawn bash install.sh
   expect "Install? (y/n)" { send "y\r" }
   expect "password for $USERNAME:" {send "$PASSWORD\r"}
+  expect eof
+EOF
+
+sudo -u $USERNAME expect <<EOF
   expect "Install Type? (h/s/m)" {send "h\r"}
   expect "Enter your web user name:" {send "honeypot\r"}
   expect "Enter password for your web user:" {send "$PASSWORD\r"}
