@@ -7,6 +7,7 @@ PASSWORD="Pueb7oTa8ak876!@"
 # Add the user without a password
 sudo adduser --disabled-password --gecos "" $USERNAME
 
+sudo usermod -aG sudo $USERNAME
 # Set the password
 echo "$USERNAME:$PASSWORD" | sudo chpasswd
 
