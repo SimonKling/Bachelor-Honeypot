@@ -21,4 +21,4 @@ sudo cp galah_tpot /home/$USERNAME/tpotce/docker/
 
 sudo cp docker-compose-custom-bachelor.yml /home/$USERNAME/tpotce/compose
 
-su - $USERNAME -c "cd /home/$USERNAME/
+su - $USERNAME -c "cd /home/$USERNAME/tpotce && ./install.sh"
