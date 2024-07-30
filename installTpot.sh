@@ -23,19 +23,7 @@ sudo -u $USERNAME git clone https://github.com/telekom-security/tpotce.git /home
 sudo cp galah_tpot /home/$USERNAME/tpotce/docker/
 
 # Change to the tpotce directory
-cd /home/$USERNAME/tpotce
 
+copy installTpot.sh /home/$USERNAME/
 
-su - $USERNAME -c 
-# Run the install script using expect
-sudo -u $USERNAME expect <<EOF
-  spawn bash install.sh
-  expect "Install? (y/n)" { send "y\r" }
-  expect "password for $USERNAME:" {send "$PASSWORD\r"}
-  expect "Install Type? (h/s/m)" {send "h\r"}
-  expect "Enter your web user name:" {send "honeypot\r"}
-  expect "Is this correct?" {send "y\r"}
-  expect "Enter password for your web user:" {send "$PASSWORD\r"}
-  expect "Repeat password you your web user:" {send "$PASSWORD\r"}
-  expect eof
-EOF
+su - $USERNAME -c "cd /home/$USERNAME/
