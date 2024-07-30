@@ -12,27 +12,27 @@ echo "$USERNAME:$PASSWORD" | sudo chpasswd
 
 echo "User $USERNAME created and password set."
 
-su - $USERNAME
+# Install expect
+sudo apt-get install -y expect
 
-sudo apt-get install expect
+# Clone the T-Pot repository as the honeypot user
+sudo -u $USERNAME git clone https://github.com/telekom-security/tpotce.git /home/$USERNAME/tpotce
 
-git clone https://github.com/telekom-security/tpotce.git
+# Copy custom file (if needed)
+sudo cp galah_tpot /home/$USERNAME/tpotce/docker/
 
-cp galah_tpot /tpotce/docker/
+# Change to the tpotce directory
+cd /home/$USERNAME/tpotce
 
-cd toptce
-
-expect <<EOF
+# Run the install script using expect
+sudo -u $USERNAME expect <<EOF
   spawn bash install.sh
   expect "Install? (y/n)" { send "y\r" }
   expect "Install Type? (h/s/m)" {send "h\r"}
   expect eof
 EOF
 
-cd .. 
+# Copy docker-compose.yml
+sudo cp /path/to/docker-compose.yml /home/$USERNAME/tpotce/
 
-cp /docker-compose.yml /tpotce/
-
-cd tpotce
-
-
+echo "T-Pot installation completed."
