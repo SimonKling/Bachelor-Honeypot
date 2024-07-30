@@ -4,8 +4,14 @@
 USERNAME="honeypot"
 PASSWORD="Pueb7oTa8ak876!@"
 
+# Install expect
+sudo apt-get update
+sudo apt-get install -y expect
+
+
 # Add the user without a password
 sudo adduser --disabled-password --gecos "" $USERNAME
+
 
 sudo usermod -aG sudo $USERNAME
 # Set the password
@@ -21,4 +27,5 @@ sudo cp galah_tpot /home/$USERNAME/tpotce/docker/
 
 sudo cp docker-compose-custom-bachelor.yml /home/$USERNAME/tpotce/compose
 
-su - $USERNAME -c "cd /home/$USERNAME/tpotce && ./install.sh"
+
+su - $USERNAME -c "cd /home/$USERNAME/tpotce &&  exspect ./scriptfile.sh"
