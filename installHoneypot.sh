@@ -35,6 +35,11 @@ sudo -u $USERNAME expect <<EOF
   expect "Enter password for your web user:" {send "$PASSWORD\r"}
   expect "Repeat password you your web user:" {send "$PASSWORD\r"}
   expect "Is this correct?" {send "y\r"}
+  expect "Install Type? (h/s/m)" {send "h\r"}
+  expect "Enter your web user name:" {send "honeypot\r"}
+  expect "Enter password for your web user:" {send "$PASSWORD\r"}
+  expect "Repeat password you your web user:" {send "$PASSWORD\r"}
+  expect "Is this correct?" {send "y\r"}
   expect eof
 EOF
 
