@@ -23,9 +23,8 @@ echo "User $USERNAME created and password set."
 sudo -u $USERNAME git clone https://github.com/telekom-security/tpotce.git /home/$USERNAME/tpotce
 
 # Copy custom files (if needed)
-sudo cp galah_tpot /home/$USERNAME/tpotce/docker/
+sudo cp -r galah_tpot /home/$USERNAME/tpotce/docker/
 sudo cp docker-compose-custom-bachelor.yml /home/$USERNAME/tpotce/compose
 
 su - $USERNAME 
 
-echo "initialization complete"
