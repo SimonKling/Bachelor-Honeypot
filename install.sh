@@ -1,14 +1,14 @@
-#!/bin/bash
+# Description: This script installs T-Pot on a fresh Ubuntu 24.04 installation.
 
 # Define username and password
-USERNAME="honeypot"
+USERNAME="admin"
 PASSWORD="Pueb7oTa8ak876!@"
 
 # Check for the -nouser option
 if [ "$1" != "-nouser" ]; then
     # Install expect
     sudo apt-get update
-    sudo apt-get install -y expect
+    sudo apt-get install -y expect 
 
     # Add the user without a password
     sudo adduser --disabled-password --gecos "" $USERNAME
@@ -31,7 +31,7 @@ else
     git clone https://github.com/telekom-security/tpotce.git ~/tpotce
 fi
 
-# Copy custom files (if needed)
+# Copy custom files 
 if [ "$1" != "-nouser" ]; then
     sudo cp -r galah_tpot /home/$USERNAME/tpotce/docker/
     sudo cp docker-compose-custom-bachelor.yml /home/$USERNAME/tpotce/compose
