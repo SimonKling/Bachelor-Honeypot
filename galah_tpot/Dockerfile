@@ -21,8 +21,10 @@ RUN git clone https://github.com/0x4D31/galah.git .
 COPY dist/honeypot.json /galah/honeypot.json
 
 #Copy custom config file 
-
 COPY dist/config/ /galah/config/
+
+#Copy custom default.json
+COPY dist/default.json /galah/templates
 
 # Copy the TLS certificate and key files into the container
 COPY dist/cert/key.pem /galah/cert/key.pem
