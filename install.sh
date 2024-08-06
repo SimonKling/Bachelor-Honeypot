@@ -1,7 +1,7 @@
 # Description: This script installs T-Pot on a fresh Ubuntu 24.04 installation.
 
 # Define username and password
-USERNAME="admin"
+USERNAME="profile"
 PASSWORD="Pueb7oTa8ak876!@"
 
 # Check for the -nouser option
