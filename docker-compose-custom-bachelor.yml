@@ -100,23 +100,6 @@ services:
     volumes:
     - ${TPOT_DATA_PATH}/adbhoney/log:/opt/adbhoney/log
     - ${TPOT_DATA_PATH}/adbhoney/downloads:/opt/adbhoney/dl
-  ciscoasa:
-    container_name: ciscoasa
-    restart: always
-    depends_on:
-      tpotinit:
-        condition: service_healthy
-    tmpfs:
-    - /tmp/ciscoasa:uid=2000,gid=2000
-    networks:
-    - ciscoasa_local
-    ports:
-    - 5000:5000/udp
-    image: ${TPOT_REPO}/ciscoasa:${TPOT_VERSION}
-    pull_policy: ${TPOT_PULL_POLICY}
-    read_only: true
-    volumes:
-    - ${TPOT_DATA_PATH}/ciscoasa/log:/var/log/ciscoasa
   conpot_IEC104:
     container_name: conpot_iec104
     restart: always
