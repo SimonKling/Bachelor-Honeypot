@@ -233,6 +233,27 @@ services:
     - ${TPOT_DATA_PATH}/cowrie/keys:/home/cowrie/cowrie/etc
     - ${TPOT_DATA_PATH}/cowrie/log:/home/cowrie/cowrie/log
     - ${TPOT_DATA_PATH}/cowrie/log/tty:/home/cowrie/cowrie/log/tty
+
+# Ciscoasa service
+  ciscoasa:
+    container_name: ciscoasa
+    restart: always
+    depends_on:
+      tpotinit:
+        condition: service_healthy
+    tmpfs:
+     - /tmp/ciscoasa:uid=2000,gid=2000
+    networks:
+     - ciscoasa_local
+    ports:
+     - "5000:5000/udp"
+     - "8443:8443"
+    image: ${TPOT_REPO}/ciscoasa:${TPOT_VERSION}
+    pull_policy: ${TPOT_PULL_POLICY}
+    read_only: true
+    volumes:
+     - ${TPOT_DATA_PATH}/ciscoasa/log:/var/log/ciscoasa
+    
   ddospot:
     container_name: ddospot
     restart: always
