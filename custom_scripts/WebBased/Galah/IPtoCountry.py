@@ -3,12 +3,14 @@ import ipaddress
 import os
 import glob
 
-INPUT_FOLDER = 'Galah_csv'    
-OUTPUT_FOLDER = 'output_results'    
-IP_COUNTRY_DB_PATH = 'IP2LOCATION-LITE-DB1.CSV' 
+
+INPUT_FOLDER = 'output'     
+OUTPUT_FOLDER = 'output_results'     
+IP_COUNTRY_DB_PATH = 'IP2LOCATION-LITE-DB1.CSV'  
 
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
+print("Reading IP-to-country database...")
 try:
     ip_db = pd.read_csv(
         IP_COUNTRY_DB_PATH,
@@ -33,7 +35,7 @@ def ip_to_country(ip):
     try:
         ip_int = int(ipaddress.IPv4Address(ip))
     except ValueError:
-        return None 
+        return None  
 
     left = 0
     right = len(ip_db) - 1
@@ -61,9 +63,6 @@ for file in csv_files:
         print(f"Error reading '{file}': {e}")
         continue  
 
-    if 'SrcIP' not in df.columns:
-        print(f"The column 'SrcIP' was not found in '{file}'. Skipping this file.")
-        continue  
 
     ip_counts = df['SrcIP'].value_counts().reset_index()
     ip_counts.columns = ['SrcIP', 'Count']

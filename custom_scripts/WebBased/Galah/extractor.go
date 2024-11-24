@@ -33,43 +33,21 @@ type HttpResponse struct {
 }
 
 func main() {
-	// Define flags for input and output directories
-	outputPath := flag.String("output", "output/combined.csv", "Path to the output CSV file")
+	outputDir := flag.String("output", "output/", "Directory for output CSV files")
 	flag.Parse()
 
-	// List of input JSON files
 	inputFiles := []string{
-		"galah_DO.json",
+		"./Galah/AzureGalah_export.json",
+		"./Galah/GoogleGalah_export.json",
+		"./Galah/OracleGalah_export.json",
+		"./Galah/DigitalOceanGalah_export.json",
 	}
 
-	// Create the output folder if it doesn't exist
-	outputDir := filepath.Dir(*outputPath)
-	if err := os.MkdirAll(outputDir, os.ModePerm); err != nil {
-		fmt.Printf("Error creating output directory '%s': %v\n", outputDir, err)
+	if err := os.MkdirAll(*outputDir, os.ModePerm); err != nil {
+		fmt.Printf("Error creating output directory '%s': %v\n", *outputDir, err)
 		return
 	}
 
-	// Open output CSV file
-	outputFile, err := os.Create(*outputPath)
-	if err != nil {
-		fmt.Printf("Error creating output file '%s': %v\n", *outputPath, err)
-		return
-	}
-	defer outputFile.Close()
-
-	writer := csv.NewWriter(outputFile)
-	defer writer.Flush()
-
-	// Write the CSV header
-	header := []string{"EventTime", "SrcIP", "HasError", "Request Body", "Method", "Request Path", "Response Body"}
-	if err := writer.Write(header); err != nil {
-		fmt.Printf("Error writing header to CSV: %v\n", err)
-		return
-	}
-
-	count := 0
-
-	// Loop through each input file
 	for _, inputFile := range inputFiles {
 		file, err := os.Open(inputFile)
 		if err != nil {
@@ -78,21 +56,37 @@ func main() {
 		}
 		defer file.Close()
 
+		outputFileName := filepath.Join(*outputDir, filepath.Base(inputFile)+".csv")
+		outputFile, err := os.Create(outputFileName)
+		if err != nil {
+			fmt.Printf("Error creating output file '%s': %v\n", outputFileName, err)
+			return
+		}
+		defer outputFile.Close()
+
+		writer := csv.NewWriter(outputFile)
+		defer writer.Flush()
+
+		header := []string{"EventTime", "SrcIP", "HasError", "Request Body", "Method", "Request Path", "Response Body"}
+		if err := writer.Write(header); err != nil {
+			fmt.Printf("Error writing header to CSV: %v\n", err)
+			return
+		}
+
 		scanner := bufio.NewScanner(file)
 		lineNumber := 0
+		count := 0
 
 		for scanner.Scan() {
 			lineNumber++
 			line := scanner.Text()
 			var entry LogEntry
 
-			// Parse the JSON entry
 			if err := json.Unmarshal([]byte(line), &entry); err != nil {
 				fmt.Printf("Error parsing JSON on line %d in file '%s': %v\nLine Content: %s\n", lineNumber, inputFile, err, line)
 				continue
 			}
 
-			// Extract fields from the log entry
 			hasError := "false"
 			if entry.Error != nil {
 				hasError = "true"
@@ -112,7 +106,6 @@ func main() {
 				responseBody = entry.HttpResponse.Body
 			}
 
-			// Write the row to CSV
 			row := []string{
 				entry.EventTime,
 				entry.SrcIP,
@@ -130,20 +123,14 @@ func main() {
 			count++
 
 			if count%1000 == 0 {
-				fmt.Printf("Processed %d records...\n", count)
+				fmt.Printf("Processed %d records for file '%s'...\n", count, inputFile)
 			}
 		}
 
 		if err := scanner.Err(); err != nil {
 			fmt.Printf("Error reading input file '%s': %v\n", inputFile, err)
 		}
-	}
 
-	// Write a summary row with the total count
-	countRow := []string{"Overall", "Total", "Count", "Of", "Requests", "", fmt.Sprintf("%d", count)}
-	if err := writer.Write(countRow); err != nil {
-		fmt.Printf("Error writing count row to CSV: %v\n", err)
+		fmt.Printf("Finished processing file '%s'. Total records: %d\n", inputFile, count)
 	}
-
-	fmt.Printf("Processing complete. Total records processed: %d\n", count)
 }
