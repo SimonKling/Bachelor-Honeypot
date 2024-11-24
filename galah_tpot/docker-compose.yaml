@@ -16,5 +16,5 @@ services:
       -o logs/galah.json
       -p gcp-vertex
       -m gemini-1.5-flash
-      --cloud-project honeypot-430414
-      --cloud-location us-central1
+      --cloud-project <PROJECT_ID>
+      --cloud-location <LOCATION>
