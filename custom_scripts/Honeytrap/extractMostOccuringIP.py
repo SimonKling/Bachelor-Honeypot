@@ -48,7 +48,7 @@ def find_Ports(filename, ip, start_time, end_time):
     return sorted_ports
 
 def main():
-    folder_path = 'raw_files_honeytrap'
+    folder_path = 'raw_files'
     output_folder = 'test_output_files'
     os.makedirs(output_folder, exist_ok=True)
     
@@ -69,7 +69,7 @@ def main():
                 for ip, count in ips[:20]:
                     f.write(f"IP Address: {ip}, Occurrences: {count}\n")
                     ports = find_Ports(filepath, ip, start_time, end_time)
-                    for port, occurrences in ports[:5]:
+                    for port, occurrences in ports:
                         f.write(f"  Port: {port}, Occurrences: {occurrences}\n")
 
             print(f"Results saved to {output_file}")

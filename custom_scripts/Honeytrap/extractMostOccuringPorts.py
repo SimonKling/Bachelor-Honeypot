@@ -25,7 +25,7 @@ def find_Ports(filename, start_time, end_time):
     return sorted_ports
 
 def main():
-    folder_path = 'raw_files_honeytrap'
+    folder_path = 'raw_files'
     output_folder = 'output_files_ports'
     os.makedirs(output_folder, exist_ok=True)
     
